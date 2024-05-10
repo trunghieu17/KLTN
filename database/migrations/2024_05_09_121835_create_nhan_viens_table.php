@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('is_tai_khoan')->default(0);
             $table->integer('is_master')->default(0);
             $table->integer('id_bang_cap')->nullable();
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

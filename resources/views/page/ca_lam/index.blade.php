@@ -1,26 +1,26 @@
 @extends('share.master')
 @section('title')
-    Quản Lý Chức Vụ
+    Quản Lý Ca Làm
 @endsection
 @section('content')
 <div class="row" id="app">
     <div class="col-lg-4 col-md-12">
         <div class="card">
             <div class="card-header">
-                Thêm Mới Chức Vụ
+                Thêm Mới Ca Làm
             </div>
             <div class="card-body">
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Tên Chức Vụ</label>
-                    <input type="text" class="form-control" v-model="chuc_vu.name">
+                    <label class="form-label">Tên Ca Làm</label>
+                    <input type="text" class="form-control" v-model="ca_lam.name">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ngày</label>
-                    <input type="text" class="form-control" v-model="chuc_vu.luong_co_ban">
+                    <label class="form-label">Giờ Vào</label>
+                    <input type="time" class="form-control" v-model="ca_lam.gio_vao">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Mô Tả</label>
-                    <textarea class="form-control" rows="5" v-model="chuc_vu.mo_ta"></textarea>
+                    <label class="form-label">Giờ Ra</label>
+                    <input type="time" class="form-control" v-model="ca_lam.gio_ra">
                 </div>
                 <hr>
                 <div class="mb-3 text-end">
@@ -32,7 +32,9 @@
     <div class="col-lg-8 col-md-12">
         <div class="card">
             <div class="card-header">
-                Danh Sách Chức Vụ
+                <div class="row">
+                    Danh Sách Ca Làm
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -40,9 +42,9 @@
                         <thead class="text-center alig-middle">
                             <tr>
                                 <th>#</th>
-                                <th>Tên Chức Vụ</th>
-                                <th>Lương Cơ Bản/Ngày</th>
-                                <th>Mô Tả</th>
+                                <th>Tên Ca Làm</th>
+                                <th>Giờ Vào</th>
+                                <th>Giờ Ra</th>
                                 <th>Tình Trạng</th>
                                 <th>Ngày Tạo</th>
                                 <th>Action</th>
@@ -53,10 +55,8 @@
                                 <tr class="text-nowrap">
                                     <th class="text-center align-middle">@{{ index + 1 }}</th>
                                     <td class="align-middle">@{{ value.name }}</td>
-                                    <td class="align-middle text-right">@{{ formatToVND(value.luong_co_ban) }}</td>
-                                    <td class="text-center align-middle">
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#chiTietModal" v-on:click="detail = Object.assign({}, value)">Chi Tiết</button>
-                                    </td>
+                                    <td class="align-middle text-center">@{{ value.gio_vao }}</td>
+                                    <td class="align-middle text-center">@{{ value.gio_ra }}</td>
                                     <td class="text-center align-middle">
                                         <button v-if="value.is_open" class="btn btn-success" v-on:click="changeStatus(value)">Hoạt Động</button>
                                         <button v-else class="btn btn-danger" v-on:click="changeStatus(value)">Tạm Tắt</button>
@@ -76,28 +76,11 @@
     </div>
 
     <!-- MODAL -->
-    <div class="modal fade" id="chiTietModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Mô Tả</h1>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>@{{ detail.mo_ta }}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Chức Vụ</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Ca Làm</h1>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -117,21 +100,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Cập Nhật Chức Vụ</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Cập Nhật Ca Làm</h1>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Tên Chức Vụ</label>
+                    <label class="form-label">Tên Ca Làm</label>
                     <input type="text" class="form-control" v-model="detail.name">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ngày</label>
-                    <input type="text" class="form-control" v-model="detail.luong_co_ban">
+                    <label class="form-label">Giờ Vào</label>
+                    <input type="time" class="form-control" v-model="detail.gio_vao">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Mô Tả</label>
-                    <textarea class="form-control" rows="5" v-model="detail.mo_ta"></textarea>
+                    <label class="form-label">Giờ Ra</label>
+                    <input type="time" class="form-control" v-model="detail.gio_ra">
                 </div>
             </div>
             <div class="modal-footer">
@@ -149,9 +132,10 @@
     new Vue({
         el      : "#app",
         data    : {
-            chuc_vu      : {},
+            ca_lam      : {},
             list                : [],
-            detail              : {}
+            detail              : {},
+            list_phong_ban      : []
         },
         created() {
             this.getData();
@@ -162,11 +146,11 @@
             },
             create() {
                 axios
-                    .post('/chuc-vu/create', this.chuc_vu)
+                    .post('/ca-lam/create', this.ca_lam)
                     .then((res) => {
                         displaySuccess(res);
                         if(res.data.status) {
-                            this.chuc_vu = {};
+                            this.ca_lam = {};
                             this.getData();
                         }
                     })
@@ -174,7 +158,7 @@
 
             getData() {
                 axios
-                    .get('/chuc-vu/data')
+                    .get('/ca-lam/data')
                     .then((res) => {
                         this.list = res.data.data;
                     })
@@ -182,7 +166,7 @@
 
             changeStatus(value) {
                 axios
-                    .post('/chuc-vu/change-status', value)
+                    .post('/ca-lam/change-status', value)
                     .then((res) => {
                         window.displaySuccess(res);
                         this.getData();
@@ -191,7 +175,7 @@
 
             update() {
                 axios
-                    .post('/chuc-vu/update', this.detail)
+                    .post('/ca-lam/update', this.detail)
                     .then((res) => {
                         displaySuccess(res);
                         this.getData();
@@ -200,7 +184,7 @@
 
             destroy() {
                 axios
-                    .post('/chuc-vu/delete', this.detail)
+                    .post('/ca-lam/delete', this.detail)
                     .then((res) => {
                         displaySuccess(res);
                         this.getData();

@@ -45,7 +45,7 @@
                         </thead>
                         <tbody>
                             <template v-for="(value, index) in list">
-                                <tr>
+                                <tr class="text-nowrap">
                                     <th class="text-center align-middle">@{{ index + 1 }}</th>
                                     <td class="align-middle">@{{ value.name }}</td>
                                     <td class="text-center align-middle">

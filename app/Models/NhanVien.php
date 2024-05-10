@@ -25,5 +25,6 @@ class NhanVien extends Model
         'id_bang_cap',
         'is_tai_khoan',
         'is_master',
+        'password'
     ];
 }

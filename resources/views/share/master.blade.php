@@ -2,6 +2,7 @@
 <html class="loading" lang="en" data-textdirection="ltr">
 <head>
 @include('share.css')
+@yield('css')
 </head>
 <body class="vertical-layout vertical-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
     @include('share.head')
@@ -26,7 +27,6 @@
     <div class="drag-target"></div>
     @include('share.footer')
     @include('share.js')
-
     @yield('js')
 </body>
 </html>

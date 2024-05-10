@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CaLamController;
 use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\LoaiNhanVienController;
 use App\Http\Controllers\NhanVienController;
+use App\Http\Controllers\PhanChiaCaController;
 use App\Http\Controllers\PhongBanController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +60,26 @@ Route::group(['prefix' => '/'], function () {
         Route::post('/change-status', [NhanVienController::class, 'changeStatus']);
         Route::post('/update', [NhanVienController::class, 'update']);
         Route::post('/delete', [NhanVienController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => '/ca-lam'], function () {
+        Route::get('/', [CaLamController::class, 'index']);
+
+        Route::get('/data', [CaLamController::class, 'getData']);
+        Route::post('/create', [CaLamController::class, 'store']);
+        Route::post('/change-status', [CaLamController::class, 'changeStatus']);
+        Route::post('/update', [CaLamController::class, 'update']);
+        Route::post('/delete', [CaLamController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => '/phan-lich-lam'], function () {
+        Route::get('/', [PhanChiaCaController::class, 'index']);
+
+        Route::get('/data', [PhanChiaCaController::class, 'getData']);
+        Route::post('/create', [PhanChiaCaController::class, 'store']);
+        Route::post('/change-status', [PhanChiaCaController::class, 'changeStatus']);
+        Route::post('/update', [PhanChiaCaController::class, 'update']);
+        Route::post('/delete', [PhanChiaCaController::class, 'destroy']);
     });
 });
 
