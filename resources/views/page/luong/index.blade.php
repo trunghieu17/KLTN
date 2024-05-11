@@ -54,6 +54,8 @@
                                     <th>Tổng Ca Đăng Kí</th>
                                     <th>Tổng Ca Làm</th>
                                     <th>Tổng Ca Nghỉ</th>
+                                    <th>Tổng Thưởng</th>
+                                    <th>Tổng Phạt</th>
                                     <th>Thành Lương</th>
                                 </tr>
                             </thead>
@@ -70,7 +72,9 @@
                                         <td class="text-center align-middle">@{{ (value.tong_di_lam * 1) + (value.tong_nghi * 1) }}</td>
                                         <td class="text-right align-middle">@{{ value.tong_di_lam }}</td>
                                         <td class="text-right align-middle">@{{ value.tong_nghi }}</td>
-                                        <td class="text-right align-middle">@{{ formatTien(value.tong_di_lam * value.luong_co_ban) }}</td>
+                                        <td class="text-right align-middle">@{{ value.tong_thuong }}</td>
+                                        <td class="text-right align-middle">@{{ value.tong_phat }}</td>
+                                        <td class="text-right align-middle">@{{ formatTien((value.tong_di_lam * value.luong_co_ban) + (value.tong_thuong * 1) - (value.tong_phat * 1))}}</td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -119,14 +123,14 @@
                                 var totalCol    = 0;
                                 var api = this.api();
                                 for (var i = 0; i < data.length; i++) {
-                                    originalString = data[i][10];
+                                    originalString = data[i][12];
                                     let numericString = originalString.replace(/[^0-9]/g, '');
                                     let number = parseInt(numericString, 10);
                                     totalAmount += number;
                                 }
                                 $("#tong_tien").html(formatTien(totalAmount));
 
-                                api.column(10, {page:'current'}).data().each(function (value, index) {
+                                api.column(12, {page:'current'}).data().each(function (value, index) {
                                     let numericString = value.replace(/[^0-9]/g, '');
                                     let number = parseInt(numericString, 10) || 0;
                                     totalCol += number;

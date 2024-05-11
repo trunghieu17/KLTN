@@ -157,6 +157,7 @@
                                     <td class="text-center align-middle">
                                         <button class="btn btn-primary me-2" data-toggle="modal" data-target="#updateModal" v-on:click="detail = Object.assign({}, value)">Cập Nhật</button>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" v-on:click="detail = Object.assign({}, value)">Xóa</button>
+                                        <button class="btn btn-secondary" v-on:click="phanTaiKhoan(value)">Phân Tài Khoản</button>
                                     </td>
                                 </tr>
                             </template>
@@ -334,6 +335,14 @@
                     .then((res) => {
                         displaySuccess(res);
                         this.getData();
+                    })
+            },
+
+            phanTaiKhoan(value) {
+                axios
+                    .post('/tai-khoan/phan-tai-khoan', value)
+                    .then((res) => {
+                        displaySuccess(res);
                     })
             },
         },

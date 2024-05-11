@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NhanVien;
+use App\Models\ThuongPhat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,7 +36,7 @@ class LuongController extends Controller
                             'loai_nhan_viens.name as ten_loai_nhan_vien',
                             'chuc_vus.luong_co_ban',
                             DB::raw('SUM(IF(chi_tiet_phan_lich_nhan_viens.is_check = 1, 1, 0)) as tong_di_lam'),
-                            DB::raw('SUM(IF(chi_tiet_phan_lich_nhan_viens.is_check = 0, 1, 0)) as tong_nghi')
+                            DB::raw('SUM(IF(chi_tiet_phan_lich_nhan_viens.is_check = 0, 1, 0)) as tong_nghi'),
                         )
                         ->groupBy(
                             'nhan_viens.id',
@@ -48,6 +49,24 @@ class LuongController extends Controller
                         )
                         ->get();
 
+        $data_thuong_phat = NhanVien::leftjoin('thuong_phats', 'thuong_phats.id_nhan_vien', 'nhan_viens.id')
+                                      ->select(
+                                            'nhan_viens.id',
+                                            DB::raw('SUM(IF(thuong_phats.the_loai = 1, thuong_phats.tien_thuong, 0)) as tong_thuong'),
+                                            DB::raw('SUM(IF(thuong_phats.the_loai = 0, thuong_phats.tien_thuong, 0)) as tong_phat'),
+                                      )
+                                      ->groupBy('nhan_viens.id')
+                                      ->get();
+
+        foreach ($data as $key => $value) {
+            foreach ($data_thuong_phat as $key_1 => $value_1) {
+                if($value->id == $value_1->id) {
+                    $value->tong_phat   = $value_1->tong_phat;
+                    $value->tong_thuong = $value_1->tong_thuong;
+                    break;
+                }
+            }
+        }
         return $this->responseData($data);
     }
 }

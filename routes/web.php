@@ -8,6 +8,8 @@ use App\Http\Controllers\LuongController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\PhanChiaCaController;
 use App\Http\Controllers\PhongBanController;
+use App\Http\Controllers\TaiKhoanController;
+use App\Http\Controllers\ThuongPhatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -91,6 +93,22 @@ Route::group(['prefix' => '/'], function () {
     Route::group(['prefix' => '/luong'], function () {
         Route::get('/', [LuongController::class, 'index']);
         Route::post('/data', [LuongController::class, 'dataLuong']);
-     });
+    });
+
+    Route::group(['prefix' => '/thuong-phat'], function () {
+        Route::get('/', [ThuongPhatController::class, 'index']);
+        Route::get('/data', [ThuongPhatController::class, 'dataThuongPhat']);
+
+        Route::post('/create', [ThuongPhatController::class, 'store']);
+        Route::post('/update', [ThuongPhatController::class, 'update']);
+        Route::post('/delete', [ThuongPhatController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => '/tai-khoan'], function () {
+        Route::get('/', [TaiKhoanController::class, 'index']);
+
+        Route::post('/phan-tai-khoan', [TaiKhoanController::class, 'phanTaiKhoan']);
+        Route::post('/cap-mat-khau', [TaiKhoanController::class, 'capMatKhau']);
+    });
 });
 
