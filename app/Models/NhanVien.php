@@ -25,6 +25,12 @@ class NhanVien extends Model
         'id_bang_cap',
         'is_tai_khoan',
         'is_master',
-        'password'
+        'password',
+        'is_open',
     ];
+
+    public function chiTietChamCong()
+    {
+        return $this->hasMany(ChiTietPhanLichNhanVien::class, 'id_nhan_vien');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CaLamController;
+use App\Http\Controllers\ChamCongController;
 use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\LoaiNhanVienController;
 use App\Http\Controllers\NhanVienController;
@@ -74,12 +75,16 @@ Route::group(['prefix' => '/'], function () {
 
     Route::group(['prefix' => '/phan-lich-lam'], function () {
         Route::get('/', [PhanChiaCaController::class, 'index']);
+        Route::post('/data', [PhanChiaCaController::class, 'data']);
+        Route::post('/phan-lich-thang', [PhanChiaCaController::class, 'phanLichThang']);
+        Route::post('/update-cham-cong', [PhanChiaCaController::class, 'updateChamCong']);
+    });
 
-        Route::get('/data', [PhanChiaCaController::class, 'getData']);
-        Route::post('/create', [PhanChiaCaController::class, 'store']);
-        Route::post('/change-status', [PhanChiaCaController::class, 'changeStatus']);
-        Route::post('/update', [PhanChiaCaController::class, 'update']);
-        Route::post('/delete', [PhanChiaCaController::class, 'destroy']);
+    Route::group(['prefix' => '/cham-cong'], function () {
+        Route::get('/', [ChamCongController::class, 'index']);
+        Route::post('/data-nhan-vien', [ChamCongController::class, 'dataNhanVien']);
+        Route::post('/data-phan-lich', [ChamCongController::class, 'dataPhanLich']);
+        Route::post('/cham-cong-nhan-vien', [ChamCongController::class, 'chamCongNhanVien']);
     });
 });
 

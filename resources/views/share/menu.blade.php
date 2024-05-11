@@ -21,6 +21,7 @@
                 <ul class="menu-content">
                     <li><a class="menu-item" href="/ca-lam">Ca Làm</a>
                     <li><a class="menu-item" href="/phan-lich-lam">Phân Ca Làm</a>
+                    <li><a class="menu-item" href="/cham-cong">Chấm Công</a>
                 </ul>
             </li>
             <li class=" nav-item"><a href="https://pixinvent.ticksy.com/" target="_blank"><i class="feather icon-life-buoy"></i><span class="menu-title" data-i18n="">Raise Support</span></a>

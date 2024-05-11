@@ -132,6 +132,7 @@
                                 <th>Ngày Sinh</th>
                                 <th>Thông Tin Chi Tiết</th>
                                 <th>Tình Trạng</th>
+                                <th>Ngày Tạo</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -139,9 +140,14 @@
                             <template v-for="(value, index) in list">
                                 <tr class="text-nowrap">
                                     <th class="text-center align-middle">@{{ index + 1 }}</th>
-                                    <td class="align-middle">@{{ value.name }}</td>
+                                    <td class="align-middle">@{{ value.code }}</td>
+                                    <td class="align-middle">@{{ value.ho_ten }}</td>
+                                    <td class="align-middle">@{{ value.email }}</td>
+                                    <td class="align-middle">@{{ value.so_dien_thoai }}</td>
+                                    <td class="align-middle">@{{ value.so_can_cuoc }}</td>
+                                    <td class="align-middle">@{{ value.ngay_sinh }}</td>
                                     <td class="text-center align-middle">
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#chiTietModal" v-on:click="detail = Object.assign({}, value)">Chi Tiết</button>
+                                        <button class="btn btn-warning" data-toggle="modal" data-target="#chiTietModal" v-on:click="detail = Object.assign({}, value)">Chi Tiết</button>
                                     </td>
                                     <td class="text-center align-middle">
                                         <button v-if="value.is_open" class="btn btn-success" v-on:click="changeStatus(value)">Hoạt Động</button>
@@ -163,14 +169,29 @@
 
     <!-- MODAL -->
     <div class="modal fade" id="chiTietModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Mô Tả</h1>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>@{{ detail.mo_ta }}</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Phòng Ban</th>
+                            <td>@{{ detail.ten_phong_ban }}</td>
+                        </tr>
+                        <tr>
+                            <th>Chức Vụ</th>
+                            <td>@{{ detail.ten_chuc_vu }}</td>
+                        </tr>
+                        <tr>
+                            <th>Loại Nhân Viên</th>
+                            <td>@{{ detail.ten_loai_nhan_vien }}</td>
+                        </tr>
+                    </thead>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -239,7 +260,7 @@
             detail              : {}
         },
         created() {
-            // this.getData();
+            this.getData();
             this.getDataChucVu();
             this.getDataLoaiNhanVien();
             this.getDataPhongBan();
@@ -254,6 +275,14 @@
                             this.nhan_vien = {};
                             this.getData();
                         }
+                    })
+            },
+
+            getData() {
+                axios
+                    .get('/nhan-vien/data')
+                    .then((res) => {
+                        this.list = res.data.data;
                     })
             },
 
