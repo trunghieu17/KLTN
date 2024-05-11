@@ -4,6 +4,7 @@ use App\Http\Controllers\CaLamController;
 use App\Http\Controllers\ChamCongController;
 use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\LoaiNhanVienController;
+use App\Http\Controllers\LuongController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\PhanChiaCaController;
 use App\Http\Controllers\PhongBanController;
@@ -86,5 +87,10 @@ Route::group(['prefix' => '/'], function () {
         Route::post('/data-phan-lich', [ChamCongController::class, 'dataPhanLich']);
         Route::post('/cham-cong-nhan-vien', [ChamCongController::class, 'chamCongNhanVien']);
     });
+
+    Route::group(['prefix' => '/luong'], function () {
+        Route::get('/', [LuongController::class, 'index']);
+        Route::post('/data', [LuongController::class, 'dataLuong']);
+     });
 });
 

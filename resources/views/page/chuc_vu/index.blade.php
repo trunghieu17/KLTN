@@ -15,7 +15,7 @@
                     <input type="text" class="form-control" v-model="chuc_vu.name">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ngày</label>
+                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ca</label>
                     <input type="text" class="form-control" v-model="chuc_vu.luong_co_ban">
                 </div>
                 <div class="mb-1">
@@ -41,7 +41,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Tên Chức Vụ</th>
-                                <th>Lương Cơ Bản/Ngày</th>
+                                <th>Lương Cơ Bản/Ca</th>
                                 <th>Mô Tả</th>
                                 <th>Tình Trạng</th>
                                 <th>Ngày Tạo</th>
@@ -126,7 +126,7 @@
                     <input type="text" class="form-control" v-model="detail.name">
                 </div>
                 <div class="mb-1">
-                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ngày</label>
+                    <label for="exampleInputEmail1" class="form-label">Lương Cơ Bản/Ca</label>
                     <input type="text" class="form-control" v-model="detail.luong_co_ban">
                 </div>
                 <div class="mb-1">

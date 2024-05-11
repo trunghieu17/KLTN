@@ -24,6 +24,11 @@
                     <li><a class="menu-item" href="/cham-cong">Chấm Công</a>
                 </ul>
             </li>
+            <li class=" nav-item"><a href="#"><i class="fa-solid fa-money-bill"></i><span class="menu-title" data-i18n="">Quản Lý Lương</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="/luong">Bảng Lương Nhân Viên</a>
+                </ul>
+            </li>
             <li class=" nav-item"><a href="https://pixinvent.ticksy.com/" target="_blank"><i class="feather icon-life-buoy"></i><span class="menu-title" data-i18n="">Raise Support</span></a>
             </li>
         </ul>

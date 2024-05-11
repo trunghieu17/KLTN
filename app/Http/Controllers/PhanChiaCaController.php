@@ -12,8 +12,8 @@ class PhanChiaCaController extends Controller
 {
     public function index()
     {
-        $ngay_dau   = Carbon::today()->format('Y-m-d');
-        $ngay_cuoi  = Carbon::today()->endOfMonth()->format('Y-m-d');
+        $ngay_dau   = Carbon::today()->startOfWeek()->format('Y-m-d');
+        $ngay_cuoi  = Carbon::today()->endOfWeek()->format('Y-m-d');
         return view('page.phan_ca_lam.index', compact('ngay_dau', 'ngay_cuoi'));
     }
 
@@ -28,7 +28,6 @@ class PhanChiaCaController extends Controller
             $ngay_dau->addDay();
         }
 
-
         $data = ChiTietPhanLichNhanVien::whereDate('ngay_lam', '>=', $request->ngay_dau)
                                        ->whereDate('ngay_lam', '<=', $request->ngay_cuoi)
                                        ->join('nhan_viens', 'nhan_viens.id', 'chi_tiet_phan_lich_nhan_viens.id_nhan_vien')
@@ -38,6 +37,7 @@ class PhanChiaCaController extends Controller
                                             'chi_tiet_phan_lich_nhan_viens.id_nhan_vien',
                                             'chi_tiet_phan_lich_nhan_viens.thu',
                                             'chi_tiet_phan_lich_nhan_viens.is_check',
+                                            'chi_tiet_phan_lich_nhan_viens.ngay_lam',
                                             'nhan_viens.ho_ten',
                                             'nhan_viens.code',
                                         )
@@ -47,6 +47,7 @@ class PhanChiaCaController extends Controller
                                             'chi_tiet_phan_lich_nhan_viens.id_nhan_vien',
                                             'chi_tiet_phan_lich_nhan_viens.thu',
                                             'chi_tiet_phan_lich_nhan_viens.is_check',
+                                            'chi_tiet_phan_lich_nhan_viens.ngay_lam',
                                             'nhan_viens.ho_ten',
                                             'nhan_viens.code',
                                         )
@@ -67,22 +68,26 @@ class PhanChiaCaController extends Controller
             return $this->responseError("Không được đổi lịch trong quá khứ!<br>Ngày đầu phải lớn hơn hôm nay!");
         }
 
+        if($ngay_dau->isMonday() == false || $ngay_cuoi->isSunday() == false) {
+            return $this->responseError("Ngày đầu và ngày cuối phải là ngày đầu tuần và cuối tuần!");
+        }
+
         ChiTietPhanLichNhanVien::whereDate('ngay_lam', '>=', $request->ngay_dau)
                                        ->whereDate('ngay_lam', '<=', $request->ngay_cuoi)
                                        ->where('id_phong_ban', $request->id_phong_ban)
                                        ->where('id_ca', $request->id_ca)
-                                       ->where('thu', $request->thu)
                                        ->delete();
 
         $list_nhan_vien = NhanVien::whereIn('id', $request->list_id_nhan_vien)->get();
         if($list_nhan_vien->count() == count($request->list_id_nhan_vien)) {
             while($ngay_dau->lte($ngay_cuoi)) {
                 foreach ($request->list_id_nhan_vien as $key => $value) {
+                    $thu = $ngay_dau->dayOfWeek;
                     ChiTietPhanLichNhanVien::create([
                         'id_ca'             => $request->id_ca,
                         'id_phong_ban'      => $request->id_phong_ban,
                         'id_nhan_vien'      => $value,
-                        'thu'               => $request->thu,
+                        'thu'               => $thu,
                         'ngay_lam'          => $ngay_dau,
                     ]);
                 }
@@ -112,15 +117,12 @@ class PhanChiaCaController extends Controller
                 return $this->responseError('Nhân viên không có đăng kí làm việc!');
             }
         } else {
-            $cham_cong = ChiTietPhanLichNhanVien::where('id_ca', $request->id_ca)
-                                                ->whereDate('ngay_lam', $request->ngay_lam)
-                                                ->where('id_phong_ban', $request->id_phong_ban)
-                                                ->first();
+            $thu = Carbon::parse($request->ngay_lam)->dayOfWeek;
             ChiTietPhanLichNhanVien::create([
                 'id_ca'          => $request->id_ca,
                 'id_phong_ban'   => $request->id_phong_ban,
                 'id_nhan_vien'   => $request->id_nhan_vien,
-                'thu'            => $cham_cong->thu,
+                'thu'            => $thu,
                 'ngay_lam'       => $request->ngay_lam,
             ]);
 

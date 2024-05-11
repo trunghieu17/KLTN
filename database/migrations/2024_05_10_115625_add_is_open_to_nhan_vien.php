@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('nhan_viens', function (Blueprint $table) {
-            $table->integer('is_open')->default(1);
+
         });
     }
 };

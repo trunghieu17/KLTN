@@ -46,23 +46,19 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>#</th>
-                                    <th>Thứ 2</th>
-                                    <th>Thứ 3</th>
-                                    <th>Thứ 4</th>
-                                    <th>Thứ 5</th>
-                                    <th>Thứ 6</th>
-                                    <th>Thứ 7</th>
-                                    <th>Chủ Nhật</th>
+                                    <template v-for="(value, index) in data_ngay">
+                                        <th>@{{ value }}</th>
+                                    </template>
                                 </tr>
                             </thead>
                             <tbody>
                                 <template v-for="(value, index) in list_ca_lam">
                                     <tr class="text-left">
                                         <th class="align-middle">@{{ value.name }}</th>
-                                        <template v-for="i in 7">
-                                            <td class="align-middle" v-on:click="object_chon.id_ca = value.id; object_chon.thu = i; changeListChon()" data-toggle="modal" data-target="#phanLichModal" >
+                                        <template v-for="(value_n, index_n) in data_ngay">
+                                            <td class="align-middle" v-on:click="object_chon.id_ca = value.id; object_chon.ngay_lam = value_n; changeListChon()" data-toggle="modal" data-target="#phanLichModal" >
                                                 <template v-for="(value_k, index_k) in list">
-                                                    <span v-if="value_k.id_ca == value.id && value_k.thu == i && value_k.id_phong_ban == id_phong_ban"><b>@{{ value_k.ho_ten }}</b><br><hr></span>
+                                                    <span v-if="value_k.id_ca == value.id && value_k.ngay_lam == value_n && value_k.id_phong_ban == id_phong_ban"><b>@{{ value_k.ho_ten }}</b><br><hr></span>
                                                 </template>
                                             </td>
                                         </template>
@@ -118,8 +114,9 @@
             list             : [],
             object_chon      : {
                 'id_ca' : 0,
-                'thu'   : 0,
-            }
+                'ngay_lam'   : 0,
+            },
+            data_ngay        : []
         },
         created() {
             this.getDataCaLam();
@@ -143,7 +140,8 @@
                 axios
                     .post('/phan-lich-lam/data', payload)
                     .then((res) => {
-                        this.list = res.data.data;
+                        this.list       = res.data.data;
+                        this.data_ngay  = res.data.data_ngay;
                     })
             },
 
@@ -181,10 +179,10 @@
                 var array          = [];
                 this.list_chon     = [];
                 var id_ca          = this.object_chon.id_ca;
-                var thu            = this.object_chon.thu;
+                var ngay_lam       = this.object_chon.ngay_lam;
                 var id_phong_ban   = this.id_phong_ban;
                 this.list.forEach(function (value, index) {
-                    if (value.id_ca == id_ca && value.id_phong_ban == id_phong_ban && value.thu == thu) {
+                    if (value.id_ca == id_ca && value.id_phong_ban == id_phong_ban && value.ngay_lam == ngay_lam) {
                         if(array.indexOf(value.id_nhan_vien == false)) {
                             array.push(value.id_nhan_vien)
                         }
