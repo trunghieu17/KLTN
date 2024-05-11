@@ -235,6 +235,7 @@
                         this.getDataNhanVien();
                         displaySuccess(res);
                         this.changeListChon();
+                        this.getData();
                     })
             }
         },

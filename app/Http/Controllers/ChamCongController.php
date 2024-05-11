@@ -83,6 +83,12 @@ class ChamCongController extends Controller
 
     public function chamCongNhanVien(Request $request)
     {
+        $ngay_lam = Carbon::parse($request->ngay_lam);
+
+        if($ngay_lam->lt(Carbon::today()) || $ngay_lam->gt(Carbon::today())) {
+            return $this->responseError("Chỉ có thể chấm công ngày hôm nay!");
+        }
+
         $cham_cong = ChiTietPhanLichNhanVien::where('id_nhan_vien', $request->id_nhan_vien)
                                             ->where('id_ca', $request->id_ca)
                                             ->whereDate('ngay_lam', $request->ngay_lam)

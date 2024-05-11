@@ -60,11 +60,11 @@ class PhanChiaCaController extends Controller
 
     public function phanLichThang(Request $request)
     {
+        $ngay_dau   = Carbon::parse($request->ngay_dau);
+        $ngay_cuoi  = Carbon::parse($request->ngay_cuoi);
+        $ngay_lam   = Carbon::parse($request->ngay_lam);
 
-        $ngay_dau = Carbon::parse($request->ngay_dau);
-        $ngay_cuoi = Carbon::parse($request->ngay_cuoi);
-
-        if($ngay_dau->lt(Carbon::today())) {
+        if($ngay_lam->lt(Carbon::today())) {
             return $this->responseError("Không được đổi lịch trong quá khứ!<br>Ngày đầu phải lớn hơn hôm nay!");
         }
 
@@ -72,28 +72,23 @@ class PhanChiaCaController extends Controller
             return $this->responseError("Ngày đầu và ngày cuối phải là ngày đầu tuần và cuối tuần!");
         }
 
-        ChiTietPhanLichNhanVien::whereDate('ngay_lam', '>=', $request->ngay_dau)
-                                       ->whereDate('ngay_lam', '<=', $request->ngay_cuoi)
-                                       ->where('id_phong_ban', $request->id_phong_ban)
-                                       ->where('id_ca', $request->id_ca)
-                                       ->delete();
+        ChiTietPhanLichNhanVien::whereDate('ngay_lam', $request->ngay_lam)
+                                ->where('id_phong_ban', $request->id_phong_ban)
+                                ->where('id_ca', $request->id_ca)
+                                ->delete();
 
         $list_nhan_vien = NhanVien::whereIn('id', $request->list_id_nhan_vien)->get();
         if($list_nhan_vien->count() == count($request->list_id_nhan_vien)) {
-            while($ngay_dau->lte($ngay_cuoi)) {
-                foreach ($request->list_id_nhan_vien as $key => $value) {
-                    $thu = $ngay_dau->dayOfWeek;
-                    ChiTietPhanLichNhanVien::create([
-                        'id_ca'             => $request->id_ca,
-                        'id_phong_ban'      => $request->id_phong_ban,
-                        'id_nhan_vien'      => $value,
-                        'thu'               => $thu,
-                        'ngay_lam'          => $ngay_dau,
-                    ]);
-                }
-                $ngay_dau->addDay();
+            foreach ($request->list_id_nhan_vien as $key => $value) {
+                $thu       = $ngay_lam->dayOfWeek;
+                ChiTietPhanLichNhanVien::create([
+                    'id_ca'             => $request->id_ca,
+                    'id_phong_ban'      => $request->id_phong_ban,
+                    'id_nhan_vien'      => $value,
+                    'thu'               => $thu,
+                    'ngay_lam'          => $ngay_lam,
+                ]);
             }
-
             return $this->responseSuccess("Phân Lịch Nhân Viên Thành Công!");
         } else {
             return $this->responseError("Đã có lỗi xảy ra!");
@@ -118,6 +113,10 @@ class PhanChiaCaController extends Controller
             }
         } else {
             $thu = Carbon::parse($request->ngay_lam)->dayOfWeek;
+            $ngay_lam = Carbon::parse($request->ngay_lam);
+            if($ngay_lam->lt(Carbon::today())) {
+                return $this->responseError("Không được đổi lịch trong quá khứ!<br>Ngày đầu phải lớn hơn hôm nay!");
+            }
             ChiTietPhanLichNhanVien::create([
                 'id_ca'          => $request->id_ca,
                 'id_phong_ban'   => $request->id_phong_ban,
