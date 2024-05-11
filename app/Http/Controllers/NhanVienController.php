@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\NhanVien;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NhanVienController extends Controller
@@ -33,5 +35,39 @@ class NhanVienController extends Controller
                         ->get();
 
         return $this->responseData($data);
+    }
+
+    public function indexLogin()
+    {
+        return view('page.login.index');
+    }
+
+    public function actionLogin(Request $request)
+    {
+        try {
+
+        } catch (Exception $e) {
+            toastr()->success('Tài khoản của bạn chưa được cấp mật khẩu!');
+            return redirect('/login');
+        }
+        $check = Auth::guard('nhan_vien')->attempt([
+            'email'     => $request->email,
+            'password'  => $request->password
+        ]);
+
+        if($check) {
+            $user = Auth::guard('nhan_vien')->user();
+            if($user->is_open && $user->is_tai_khoan) {
+                toastr()->success('Đăng nhập thành công!');
+                return redirect('/');
+            } else {
+                Auth::guard('nhan_vien')->logout();
+                toastr()->warning('Tài khoản của bạn đã bị khoá!');
+                return redirect('/login');
+            }
+        } else {
+            toastr()->success('Thông tin đăng nhập không chính xác!');
+            return redirect('/login');
+        }
     }
 }

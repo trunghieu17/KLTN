@@ -19,6 +19,7 @@ class NhanVienSeeder extends Seeder
         DB::table('nhan_viens')->truncate();
 
         DB::table('nhan_viens')->insert([
+            ["ho_ten" => "Admin", "email" => "admin@master.com", "so_dien_thoai" => "0123456789", "so_can_cuoc" => "123456789", "ngay_sinh" => "1985-01-01", "gioi_tinh" => 1, "que_quan" => "Hà Nội", "thuong_tru" => "Hà Nội", "id_chuc_vu" => 1, "id_phong_ban" => 1, "id_loai_nhan_vien" => 1],
             ["ho_ten" => "Nguyễn Văn A", "email" => "nguyenvana@gmail.com", "so_dien_thoai" => "0123456789", "so_can_cuoc" => "123456789", "ngay_sinh" => "1985-01-01", "gioi_tinh" => 1, "que_quan" => "Hà Nội", "thuong_tru" => "Hà Nội", "id_chuc_vu" => 1, "id_phong_ban" => 1, "id_loai_nhan_vien" => 1],
             ["ho_ten" => "Trần Thị B", "email" => "tran_thib@yahoo.com", "so_dien_thoai" => "0123456790", "so_can_cuoc" => "223456789", "ngay_sinh" => "1990-02-02", "gioi_tinh" => 0, "que_quan" => "TP HCM", "thuong_tru" => "TP HCM", "id_chuc_vu" => 2, "id_phong_ban" => 1, "id_loai_nhan_vien" => 1],
             ["ho_ten" => "Lê Văn C", "email" => "levanc@outlook.com", "so_dien_thoai" => "0123456791", "so_can_cuoc" => "323456789", "ngay_sinh" => "1988-03-03", "gioi_tinh" => 1, "que_quan" => "Đà Nẵng", "thuong_tru" => "Đà Nẵng", "id_chuc_vu" => 3, "id_phong_ban" => 1, "id_loai_nhan_vien" => 1],
@@ -55,6 +56,11 @@ class NhanVienSeeder extends Seeder
         foreach ($data as $key => $value) {
             $ma_nhan_vien = "NVFF" . (10052024 + $value->id);
             $value->code = $ma_nhan_vien;
+            if($value->email == "admin@master.com" && $value->id == 1) {
+                $value->is_master    = 1;
+                $value->password     = bcrypt("123456");
+                $value->is_tai_khoan = 1;
+            }
             $value->save();
         }
     }

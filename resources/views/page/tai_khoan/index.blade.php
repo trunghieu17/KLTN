@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             <template v-for="(value, index) in list">
-                                <tr class="text-nowrap" v-if="value.is_tai_khoan == 1">
+                                <tr class="text-nowrap" v-if="value.is_tai_khoan == 1 && value.is_master == 0">
                                     <th class="text-center align-middle">@{{ index + 1 }}</th>
                                     <td class="align-middle">@{{ value.code }}</td>
                                     <td class="align-middle">@{{ value.ho_ten }}</td>
