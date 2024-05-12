@@ -10,11 +10,13 @@ class TaiKhoanController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 49;
         return view('page.tai_khoan.index');
     }
 
     public function phanTaiKhoan(Request $request)
     {
+        $id_chuc_nang = 50;
         $nhan_vien = NhanVien::find($request->id);
         if($nhan_vien) {
             $nhan_vien->is_tai_khoan = 1;
@@ -28,6 +30,7 @@ class TaiKhoanController extends Controller
 
     public function capMatKhau(Request $request)
     {
+        $id_chuc_nang = 51;
         $nhan_vien = NhanVien::find($request->id);
         if($nhan_vien) {
             $check = false;

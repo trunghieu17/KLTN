@@ -12,6 +12,7 @@ class LuongController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 40;
         $ngay_dau   = Carbon::today()->startOfMonth()->format('Y-m-d');
         $ngay_cuoi  = Carbon::today()->endOfMonth()->format('Y-m-d');
         return view('page.luong.index', compact('ngay_dau', 'ngay_cuoi'));
@@ -19,6 +20,7 @@ class LuongController extends Controller
 
     public function dataLuong(Request $request)
     {
+        $id_chuc_nang = 40;
         $ngay_dau   = Carbon::parse($request->ngay_dau);
         $ngay_cuoi  = Carbon::parse($request->ngay_cuoi);
 

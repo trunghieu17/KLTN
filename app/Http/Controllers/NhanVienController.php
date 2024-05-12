@@ -12,11 +12,13 @@ class NhanVienController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 20;
         return view('page.nhan_vien.index');
     }
 
     public function store(Request $request)
     {
+        $id_chuc_nang = 21;
         $nhan_vien = NhanVien::create($request->all());
 
         $ma_nhan_vien = "NVFF" . (10052024 + $nhan_vien->id);
@@ -28,6 +30,7 @@ class NhanVienController extends Controller
 
     public function getData()
     {
+        $id_chuc_nang = 20;
         $data = NhanVien::join('phongbans', 'phongbans.id', 'nhan_viens.id_phong_ban')
                         ->join('loai_nhan_viens', 'loai_nhan_viens.id', 'nhan_viens.id_loai_nhan_vien')
                         ->join('chuc_vus', 'chuc_vus.id', 'nhan_viens.id_chuc_vu')

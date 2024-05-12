@@ -10,23 +10,27 @@ class PhongBanController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 11;
         return view('page.phong_ban.index');
     }
 
     public function store(Request $request)
     {
+        $id_chuc_nang = 12;
         Phongban::create($request->all());
         return $this->responseSuccess("Thêm mới chức vụ thành công!");
     }
 
     public function getData()
     {
+        $id_chuc_nang = 11;
         $data = Phongban::select('phongbans.*', DB::raw("DATE_FORMAT(phongbans.created_at, '%d/%m/%Y') as created"))->get();
         return $this->responseData($data);
     }
 
     public function changeStatus(Request $request)
     {
+        $id_chuc_nang = 13;
         $phang_ban = Phongban::find($request->id);
         if($phang_ban) {
             $phang_ban->is_open = !$phang_ban->is_open;
@@ -40,6 +44,7 @@ class PhongBanController extends Controller
 
     public function update(Request $request)
     {
+        $id_chuc_nang = 14;
         $phang_ban = Phongban::find($request->id);
         if($phang_ban) {
             $phang_ban->update([
@@ -56,6 +61,7 @@ class PhongBanController extends Controller
 
     public function destroy(Request $request)
     {
+        $id_chuc_nang = 15;
         $phang_ban = Phongban::find($request->id);
         if($phang_ban) {
             $phang_ban->delete();

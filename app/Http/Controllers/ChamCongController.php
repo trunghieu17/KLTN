@@ -12,6 +12,7 @@ class ChamCongController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 35;
         $ngay_dau   = Carbon::today()->startOfWeek()->format('Y-m-d');
         $ngay_cuoi  = Carbon::today()->endOfWeek()->format('Y-m-d');
 
@@ -20,6 +21,7 @@ class ChamCongController extends Controller
 
     public function dataNhanVien(Request $request)
     {
+        $id_chuc_nang = 35;
         $data = DB::table('nhan_viens')
                     ->leftJoin('chi_tiet_phan_lich_nhan_viens', function ($join) use ($request) {
                         $join->on('nhan_viens.id', '=', 'chi_tiet_phan_lich_nhan_viens.id_nhan_vien')
@@ -42,6 +44,7 @@ class ChamCongController extends Controller
 
     public function dataPhanLich(Request $request)
     {
+        $id_chuc_nang = 35;
         $ngay_dau   = Carbon::parse($request->ngay_dau);
         $ngay_cuoi  = Carbon::parse($request->ngay_cuoi);
         $array_ngay = [];
@@ -83,6 +86,7 @@ class ChamCongController extends Controller
 
     public function chamCongNhanVien(Request $request)
     {
+        $id_chuc_nang = 36;
         $ngay_lam = Carbon::parse($request->ngay_lam);
 
         if($ngay_lam->lt(Carbon::today()) || $ngay_lam->gt(Carbon::today())) {
