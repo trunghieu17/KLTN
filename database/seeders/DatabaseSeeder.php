@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PhongBanSeeder::class);
         $this->call(NhanVienSeeder::class);
         $this->call(CaSangSeeder::class);
+        $this->call(ChucNangSeeder::class);
     }
 }

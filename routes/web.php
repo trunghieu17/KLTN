@@ -7,6 +7,7 @@ use App\Http\Controllers\LoaiNhanVienController;
 use App\Http\Controllers\LuongController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\PhanChiaCaController;
+use App\Http\Controllers\PhanQuyenController;
 use App\Http\Controllers\PhongBanController;
 use App\Http\Controllers\TaiKhoanController;
 use App\Http\Controllers\ThuongPhatController;
@@ -49,14 +50,14 @@ Route::group(['prefix' => '/', 'middleware' => "NhanVienMiddleWare"], function (
         Route::post('/delete', [PhongBanController::class, 'destroy']);
     });
 
-    Route::group(['prefix' => '/phong-ban'], function () {
-        Route::get('/', [PhongBanController::class, 'index']);
-
-        Route::get('/data', [PhongBanController::class, 'getData']);
-        Route::post('/create', [PhongBanController::class, 'store']);
-        Route::post('/change-status', [PhongBanController::class, 'changeStatus']);
-        Route::post('/update', [PhongBanController::class, 'update']);
-        Route::post('/delete', [PhongBanController::class, 'destroy']);
+    Route::group(['prefix' => '/phan-quyen'], function () {
+        Route::get('/', [PhanQuyenController::class, 'index']);
+        Route::get('data-chuc-nang/{id_chuc_vu}', [PhanQuyenController::class, 'getDataChucNang']);
+        Route::get('/data/{id_chuc_vu}', [PhanQuyenController::class, 'getData']);
+        Route::post('/create', [PhanQuyenController::class, 'store']);
+        Route::post('/change-status', [PhanQuyenController::class, 'changeStatus']);
+        // Route::post('/update', [PhanQuyenController::class, 'update']);
+        Route::post('/delete', [PhanQuyenController::class, 'destroy']);
     });
 
     Route::group(['prefix' => '/nhan-vien'], function () {
@@ -114,4 +115,3 @@ Route::group(['prefix' => '/', 'middleware' => "NhanVienMiddleWare"], function (
         Route::post('/cap-mat-khau', [TaiKhoanController::class, 'capMatKhau']);
     });
 });
-

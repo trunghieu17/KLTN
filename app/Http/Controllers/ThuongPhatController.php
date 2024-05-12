@@ -11,11 +11,13 @@ class ThuongPhatController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 45;
         return view('page.thuong_phat.index');
     }
 
     public function dataThuongPhat()
     {
+        $id_chuc_nang = 45;
         $data = ThuongPhat::join('nhan_viens', 'nhan_viens.id', 'thuong_phats.id_nhan_vien')
                           ->join('phongbans', 'phongbans.id', 'nhan_viens.id_phong_ban')
                           ->join('chuc_vus', 'chuc_vus.id', 'nhan_viens.id_chuc_vu')
@@ -27,6 +29,7 @@ class ThuongPhatController extends Controller
 
     public function store(Request $request)
     {
+        $id_chuc_nang = 46;
         $nhan_vien = NhanVien::where('id', $request->id_nhan_vien)
                              ->where('is_open', 1)->first();
 
@@ -41,6 +44,7 @@ class ThuongPhatController extends Controller
 
     public function update(Request $request)
     {
+        $id_chuc_nang = 47;
         $thuong_phat = ThuongPhat::find($request->id);
         if($thuong_phat) {
             $thuong_phat->update($request->all());
@@ -53,6 +57,7 @@ class ThuongPhatController extends Controller
 
     public function destroy(Request $request)
     {
+        $id_chuc_nang = 48;
         $thuong_phat = ThuongPhat::find($request->id);
         if($thuong_phat) {
             $thuong_phat->delete();

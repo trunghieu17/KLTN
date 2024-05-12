@@ -12,6 +12,7 @@ class PhanChiaCaController extends Controller
 {
     public function index()
     {
+        $id_chuc_nang = 30;
         $ngay_dau   = Carbon::today()->startOfWeek()->format('Y-m-d');
         $ngay_cuoi  = Carbon::today()->endOfWeek()->format('Y-m-d');
         return view('page.phan_ca_lam.index', compact('ngay_dau', 'ngay_cuoi'));
@@ -19,7 +20,7 @@ class PhanChiaCaController extends Controller
 
     public function data(Request $request)
     {
-
+        $id_chuc_nang = 30;
         $ngay_dau   = Carbon::parse($request->ngay_dau);
         $ngay_cuoi  = Carbon::parse($request->ngay_cuoi);
         $array_ngay = [];
@@ -60,6 +61,7 @@ class PhanChiaCaController extends Controller
 
     public function phanLichThang(Request $request)
     {
+        $id_chuc_nang = 31;
         $ngay_dau   = Carbon::parse($request->ngay_dau);
         $ngay_cuoi  = Carbon::parse($request->ngay_cuoi);
         $ngay_lam   = Carbon::parse($request->ngay_lam);
@@ -97,6 +99,7 @@ class PhanChiaCaController extends Controller
 
     public function updateChamCong(Request $request)
     {
+        $id_chuc_nang = 32;
         if($request->type == 1) {
             $cham_cong = ChiTietPhanLichNhanVien::where('id_nhan_vien', $request->id_nhan_vien)
                                                 ->where('id_ca', $request->id_ca)
